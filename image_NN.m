@@ -19,7 +19,7 @@ for ii=1:1:100
     net=newff(input,target,[30],{'logsig'},'trainlm','learngdm','mse');
     net.trainParam.epochs=1000;                   
     net.trainParam.lr=0.01;       
-    net.trainParam.goal=0.0000001;
+    net.trainParam.goal=0.000001;
     net.trainParam.mc=0.9;                                         
 
     net.divideParam.trainRatio = 60/100; 
@@ -33,24 +33,21 @@ for ii=1:1:100
     % Validation Accuracy Check
     [rows,cols] = size(input);
     sample_input = zeros(rows,length(tr.valInd)); % nInput x n
-    sample_target = zeros(1,length(tr.valInd)); % nTarget x n
+    sample_target = zeros(nTarget,length(tr.valInd)); % nTarget x n
     for i=1:1:length(tr.valInd);
         sample_input(:,i) = input(:,tr.valInd(i));
-        sample_target(:,i) = target(1,tr.valInd(i));
+        sample_target(:,i) = target(nTarget,tr.valInd(i));
     end
     
-    output = zeros(1,length(tr.valInd));
+    output = zeros(nTarget,length(tr.valInd));
     for j=1:1:length(tr.valInd);              
         output(:,j) = net(sample_input(:,j));
     end
+    perf = (1-mae(output-sample_target))*100;
 
-    error=abs(output-sample_target);
-    accuracy=(1-error)*100;
-    data(1,ii) = mean(accuracy);
-
-    figure(2)
+    figure(5)
     x = linspace(1,ii,ii);
-    plot(x,data,'-ob');
+    plot(x,perf,'-ob');
     set(gca,'FontSize',10,'FontWeight','Bold','FontName','Times New Roman');
     xlabel('Iteration No');
     title('Validation Accuracy(%)');
