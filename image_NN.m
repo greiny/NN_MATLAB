@@ -16,7 +16,7 @@ target=shuffled_mat(:,[(n-nTarget+1):n])';
 %% Neural Network
 for ii=1:1:100
     %Setting
-    net=newff(input,target,[30],{'logsig'},'trainlm');
+    net=newff(input,target,[30],{'logsig'},'trainlm','learngdm','mse');
     net.trainParam.epochs=1000;                   
     net.trainParam.lr=0.01;       
     net.trainParam.goal=0.0000001;
