@@ -40,8 +40,7 @@ for ii=1:1:100
     net=newff(input,target,[30],{'logsig'},'trainlm');
     net.trainParam.epochs=1000;                   
     net.trainParam.lr=0.01;       
-    net.trainParam.goal=0;
-    net.trainParam.max_fail=100; 
+    net.trainParam.goal=0.0000001;
     net.trainParam.mc=0.9;                                         
 
     net.divideParam.trainRatio = 60/100; 
